@@ -6,7 +6,6 @@
         <script src="src/canvas.js"></script>
         <script src="src/creative_coding.js"></script>
         <script src="src/mic.js"></script>
-        <script src="src/stats.min.js"></script>
         
     </head>
     
@@ -48,12 +47,8 @@
                 }
             }, false);
             
-            
-            var stats = new Stats();
-			stats.showPanel( 2 );
-			document.body.appendChild( stats.dom );
-            
             ctx.background(0)
+            
             //set to 128 for digitised effect, otherwise 512 is smooth
             var mic = new Microphone(128);
             
@@ -141,8 +136,6 @@
             
             //requests animation frame
             function draw(){
-                frameRate = 60;
-                stats.begin();
                   
                 if (mic.getRMS(mic.spectrum) > mic.peak_volume - 20) {
                     ctx.lineWidth = 1000;
@@ -161,7 +154,6 @@
                 
                 drawParticles(1);
                 drawConnections();
-                stats.end();
             }
             
         </script>
