@@ -3,17 +3,167 @@
         <meta charset="utf-8">
         <title>Music Visualizer</title>
         
-        <script src="src/canvas.js"></script>
-        <script src="src/creative_coding.js"></script>
-        <script src="src/mic.js"></script>
-        <script src="src/stats.min.js"></script>
+        <script src="js sources/canvas.js"></script>
+        <script src="js sources/creative_coding.js"></script>
+        <script src="js sources/mic.js"></script>
+        <script src="js sources/stats.min.js"></script>
         
     </head>
     
     <body>
         
         <script>
-            var _0x538a=['line','getRMS','spectrum','strokeStyle','fillRect','lineWidth','documentElement','requestFullscreen','webkitRequestFullscreen','mozRequestFullScreen','msRequestFullscreen','addEventListener','dblclick','call','keypress','addColorStop','keyCode','background','push','mapWaveform','intensity','radius','angle','cos'];(function(_0x31af35,_0x20f0dd){var _0x198ab8=function(_0x1c0208){while(--_0x1c0208){_0x31af35['push'](_0x31af35['shift']());}};_0x198ab8(++_0x20f0dd);}(_0x538a,0x1e6));var _0x2ad2=function(_0x145430,_0x3645b0){_0x145430=_0x145430-0x0;var _0x2f01f8=_0x538a[_0x145430];return _0x2f01f8;};var ctx=createCanvas('canvas1');function getreqfullscreen(){var _0xb2b54b=document[_0x2ad2('0x0')];return _0xb2b54b[_0x2ad2('0x1')]||_0xb2b54b[_0x2ad2('0x2')]||_0xb2b54b[_0x2ad2('0x3')]||_0xb2b54b[_0x2ad2('0x4')];}canvas[_0x2ad2('0x5')](_0x2ad2('0x6'),function(){var _0x3f1203=getreqfullscreen();_0x3f1203[_0x2ad2('0x7')](document[_0x2ad2('0x0')]);});document[_0x2ad2('0x5')](_0x2ad2('0x8'),function(_0x2a61dd){if(_0x2a61dd['keyCode']==0x31){line_colour=rgb(0xfa,0x0,0x0);gradient=ctx['createRadialGradient'](w/0x2,h/0x2,w/0x2,w/0x2,h/0x2,w/0x4);gradient[_0x2ad2('0x9')](0x1,rgb(0xff,0x78,0x0));gradient['addColorStop'](0x0,rgb(0xff,0x0,0x0));}else if(_0x2a61dd[_0x2ad2('0xa')]==0x32){line_colour=rgb(0xff,0xff,0xff);gradient=ctx['createRadialGradient'](w/0x2,h/0x2,w/0x2,w/0x2,h/0x2,w/0x4);gradient[_0x2ad2('0x9')](0x1,rgb(0xff,0xff,0xff));gradient[_0x2ad2('0x9')](0x0,rgb(0xeb,0xeb,0xeb));}},![]);ctx[_0x2ad2('0xb')](0x0);var mic=new Microphone(0x80);var left_particles=[];var right_particles=[];var num_particles=0x50;var radius=0xfa;var line_colour=rgb(0xff,0xff,0xff);var gradient=ctx['createRadialGradient'](w/0x2,h/0x2,w/0x2,w/0x2,h/0x2,w/0x4);gradient['addColorStop'](0x1,rgb(0xff,0xff,0xff));gradient[_0x2ad2('0x9')](0x0,rgb(0xeb,0xeb,0xeb));for(i=0x0;i<num_particles;i++){addLeftParticle(i);addRightParticle(i);}function addLeftParticle(_0x368995){var _0x5aebc3=radians(halfDistributeAngles(i,num_particles))+Math['PI']/0x2;var _0x12e528={'x':0x0,'y':0x0,'angle':_0x5aebc3,'radius':radius,'intensity':0x1};left_particles[_0x2ad2('0xc')](_0x12e528);}function addRightParticle(_0x232b8c){var _0x16adce=radians(halfDistributeAngles(i,num_particles))+Math['PI']/0x2+0.026;var _0x24f1f5={'x':0x0,'y':0x0,'angle':_0x16adce,'radius':radius,'intensity':0x1};right_particles[_0x2ad2('0xc')](_0x24f1f5);}function drawParticles(_0x464dd0){for(i=0x0;i<num_particles;i++){waveform=mic[_0x2ad2('0xd')](i,num_particles,0x1,h*0x3);pl=left_particles[i];pl[_0x2ad2('0xe')]=pl[_0x2ad2('0xf')]*waveform*_0x464dd0;pl['x']=w/0x2+Math['cos'](pl[_0x2ad2('0x10')])*(pl['radius']*waveform*_0x464dd0)+4.01;pl['y']=h/0x2+Math['sin'](pl['angle'])*(pl[_0x2ad2('0xf')]*waveform*_0x464dd0);pr=right_particles[i];pr['x']=w-(w/0x2+Math[_0x2ad2('0x11')](pr[_0x2ad2('0x10')])*(pr[_0x2ad2('0xf')]*waveform*_0x464dd0))-4.01;pr['y']=h/0x2+Math['sin'](pr['angle'])*(pr[_0x2ad2('0xf')]*waveform*_0x464dd0);}}function drawConnections(){for(i=0x0;i<num_particles-0x1;i++){pl1=left_particles[i];pl2=left_particles[i+0x1];pr1=right_particles[i];pr2=right_particles[i+0x1];ctx[_0x2ad2('0x12')](pl1['x'],pl1['y'],pl2['x'],pl2['y']);ctx['line'](pr1['x'],pr1['y'],pr2['x'],pr2['y']);}}function draw(){if(mic[_0x2ad2('0x13')](mic[_0x2ad2('0x14')])>mic['peak_volume']-0x14){ctx['lineWidth']=0x3e8;ctx[_0x2ad2('0x15')]=rgb(0x0);ctx['fillStyle']=gradient;ctx[_0x2ad2('0x16')](0x0,0x0,w,h);}else{ctx[_0x2ad2('0x17')]=0x2;ctx[_0x2ad2('0x15')]=line_colour;ctx[_0x2ad2('0xb')](0x0,map(mic[_0x2ad2('0x13')](mic[_0x2ad2('0x14')]),0x0,0x64,0.25,0.05));}drawParticles(0x1);drawConnections();}
+            //create canvas
+            var ctx = createCanvas("canvas1");
+            
+            //double click fullscreen event listener
+            //Double Click to go FULLSCREEN
+            function getreqfullscreen(){
+                var root = document.documentElement
+                return root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
+            }
+            
+            canvas.addEventListener('dblclick', function(){ 
+
+                //usage: getreqfullscreen().call(targetelement) // open full screen on targetelement
+            
+                var globalreqfullscreen = getreqfullscreen() // get supported version of requestFullscreen()
+            
+                globalreqfullscreen.call(document.documentElement);
+            });
+            
+            document.addEventListener('keypress', function (e) {
+                if (e.keyCode == 49) {
+                    //1: black and red
+                    line_colour = rgb(250, 0, 0);
+                    gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
+                    gradient.addColorStop(1, rgb(255, 120, 0));
+                    gradient.addColorStop(0, rgb(255, 0, 0));
+                } else if (e.keyCode == 50) {
+                    //2: basic black and white
+                    line_colour = rgb(255, 255, 255);
+                    gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
+                    gradient.addColorStop(1, rgb(255, 255, 255));
+                    gradient.addColorStop(0, rgb(235, 235, 235));
+                }
+            }, false);
+            
+            
+            var stats = new Stats();
+			stats.showPanel( 2 );
+			document.body.appendChild( stats.dom );
+            
+            ctx.background(0)
+            //set to 128 for digitised effect, otherwise 512 is smooth
+            var mic = new Microphone(128);
+            
+            //particles
+            var left_particles = [];
+            var right_particles = [];
+            var num_particles = 80;
+            var radius = 250;
+    
+            //colours
+            var line_colour = rgb(255, 255, 255);
+            var gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
+            gradient.addColorStop(1, rgb(255, 255, 255));
+            gradient.addColorStop(0, rgb(235, 235, 235));
+            
+            
+            //add a number of particles to particles
+            for (i = 0; i < num_particles; i++) {
+                addLeftParticle(i);
+                addRightParticle(i);
+            }
+            
+            
+            function addLeftParticle(_i) {
+                var _angle = radians(halfDistributeAngles(i, num_particles)) + Math.PI/2;
+                var particle = {
+                    x: 0,
+                    y: 0,
+                    angle: _angle,
+                    radius: radius,
+                    intensity: 1
+                }
+                left_particles.push(particle);
+            }
+            
+            
+            //creates a particle object and adds it to the particles object
+            function addRightParticle(_i) {
+                var _angle = radians(halfDistributeAngles(i, num_particles)) + Math.PI/2 + 0.026;
+                var particle = {
+                    x: 0,
+                    y: 0,
+                    angle: _angle,
+                    radius: radius,
+                    intensity: 1
+                }
+                right_particles.push(particle);
+            }
+            
+            
+            function drawParticles(explode) {
+                for (i = 0; i < num_particles; i++) {
+                    
+                    waveform = mic.mapWaveform(i, num_particles, 1, h * 3);
+                    
+                    pl = left_particles[i];
+                    //optional
+                    //pl.radius = mic.getRMS(mic.spectrum) * 4;
+                    pl.intensity = pl.radius * waveform * explode;
+                    pl.x = w/2 + Math.cos(pl.angle) * (pl.radius * waveform * explode) + 4.01;
+                    pl.y = h/2 + Math.sin(pl.angle) * (pl.radius * waveform * explode);
+                    
+                    pr = right_particles[i];
+                    //optional
+                    //pr.radius = mic.getRMS(mic.spectrum) * 4;
+                    pr.x = w - (w/2 + Math.cos(pr.angle) * (pr.radius * waveform * explode)) - 4.01;
+                    pr.y = h/2 + Math.sin(pr.angle) * (pr.radius * waveform * explode);
+                }
+            }
+            
+            
+            function drawConnections () {
+                for (i = 0; i < num_particles - 1; i++) {
+                    pl1 = left_particles[i];
+                    pl2 = left_particles[i + 1];
+                    pr1 = right_particles[i];
+                    pr2 = right_particles[i + 1];
+                    
+                    
+                    ctx.line(pl1.x, pl1.y, pl2.x, pl2.y);
+                    ctx.line(pr1.x, pr1.y, pr2.x, pr2.y);
+                }
+            }
+                
+            
+            //requests animation frame
+            function draw(){
+                frameRate = 60;
+                stats.begin();
+                  
+                if (mic.getRMS(mic.spectrum) > mic.peak_volume - 20) {
+                    ctx.lineWidth = 1000;
+                    ctx.strokeStyle = rgb(0);
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, w, h);
+                    //set to 2 for bigger explosion
+                    //drawParticles(2);
+                } else {
+                    
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = line_colour;
+                    ctx.background(0, map(mic.getRMS(mic.spectrum), 0, 100, 0.25, 0.05));
+                    //drawParticles(1);
+                }
+                
+                drawParticles(1);
+                drawConnections();
+                stats.end();
+            }
+            
         </script>
     </body>
 </html>
