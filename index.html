@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Music Visualizer</title>
+        <title>Plasma Visualizer</title>
         
         <script src="src/canvas.js"></script>
         <script src="src/creative_coding.js"></script>
@@ -44,7 +44,22 @@
                     gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
                     gradient.addColorStop(1, rgb(255, 255, 255));
                     gradient.addColorStop(0, rgb(235, 235, 235));
+                    
+                    
+                } else if (e.keyCode == 55) {
+                    //7: symmetry number: 2
+                    symmetry_num = 2;
+                } else if (e.keyCode == 56) {
+                    //8: symmetry number: 4
+                    symmetry_num = 4;
+                } else if (e.keyCode == 57) {
+                    //9: symmetry number: 8
+                    symmetry_num = 8;
+                } else if (e.keyCode == 48) {
+                    //0: symmetry number: 20
+                    symmetry_num = 20;
                 }
+                
             }, false);
             
             ctx.background(0)
@@ -52,13 +67,15 @@
             //set to 128 for digitised effect, otherwise 512 is smooth
             var mic = new Microphone(128);
             
+            //number of lines of symmetry
+            var symmetry_num = 4;
+            
             //particles
-            var left_particles = [];
-            var right_particles = [];
-            var num_particles = 80;
-            var radius = 250;
+            var particles = [];
+            var num_particles = 160;
+            var radius = 300;
     
-            //colours
+            //initial colours
             var line_colour = rgb(255, 255, 255);
             var gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
             gradient.addColorStop(1, rgb(255, 255, 255));
@@ -67,92 +84,70 @@
             
             //add a number of particles to particles
             for (i = 0; i < num_particles; i++) {
-                addLeftParticle(i);
-                addRightParticle(i);
+                addParticle(i);
             }
             
             
-            function addLeftParticle(_i) {
-                var _angle = radians(halfDistributeAngles(i, num_particles)) + Math.PI/2;
+            function addParticle(_i) {
+                var _angle = radians(distributeAngles(i, num_particles)) + Math.PI / 2;
                 var particle = {
                     x: 0,
                     y: 0,
                     angle: _angle,
                     radius: radius,
-                    intensity: 1
                 }
-                left_particles.push(particle);
+                particles.push(particle);
             }
             
             
-            //creates a particle object and adds it to the particles object
-            function addRightParticle(_i) {
-                var _angle = radians(halfDistributeAngles(i, num_particles)) + Math.PI/2 + 0.026;
-                var particle = {
-                    x: 0,
-                    y: 0,
-                    angle: _angle,
-                    radius: radius,
-                    intensity: 1
-                }
-                right_particles.push(particle);
-            }
-            
-            
-            function drawParticles(explode) {
-                for (i = 0; i < num_particles; i++) {
-                    
-                    waveform = mic.mapWaveform(i, num_particles, 1, h);
-                    
-                    pl = left_particles[i];
-                    //optional
-                    //pl.radius = mic.getRMS(mic.spectrum) * 4;
-                    pl.intensity = pl.radius * waveform * explode;
-                    pl.x = w/2 + Math.cos(pl.angle) * (pl.radius * waveform * explode) + 4.01;
-                    pl.y = h/2 + Math.sin(pl.angle) * (pl.radius * waveform * explode);
-                    
-                    pr = right_particles[i];
-                    //optional
-                    //pr.radius = mic.getRMS(mic.spectrum) * 4;
-                    pr.x = w - (w/2 + Math.cos(pr.angle) * (pr.radius * waveform * explode)) - 4.01;
-                    pr.y = h/2 + Math.sin(pr.angle) * (pr.radius * waveform * explode);
+            function drawParticles() {
+                for (j = 0; j < symmetry_num; j++) {
+                    for (i = 0; i < num_particles / symmetry_num; i++) {
+                        var particle_id = (num_particles / symmetry_num) * j;
+                        waveform = mic.mapWaveform(i, num_particles / symmetry_num, 1, h / 2);
+                        
+                        if (j % 2 == 0) {
+                            particle = particle_id + (num_particles / symmetry_num) - i - 1;
+                            p = particles[particle];
+                        } else {
+                            p = particles[particle_id + i];
+                        }
+                        
+                        p.x = w/2 + Math.cos(p.angle) * (p.radius * waveform);
+                        p.y = h/2 + Math.sin(p.angle) * (p.radius * waveform);
+                    }
                 }
             }
             
             
-            function drawConnections () {
+            function drawConnections() {
                 for (i = 0; i < num_particles - 1; i++) {
-                    pl1 = left_particles[i];
-                    pl2 = left_particles[i + 1];
-                    pr1 = right_particles[i];
-                    pr2 = right_particles[i + 1];
-                    
-                    
-                    ctx.line(pl1.x, pl1.y, pl2.x, pl2.y);
-                    ctx.line(pr1.x, pr1.y, pr2.x, pr2.y);
+                    p1 = particles[i];
+                    p2 = particles[i + 1];
+                    ctx.line(p1.x, p1.y, p2.x, p2.y);
                 }
+                
+                p1 = particles[0];
+                p2 = particles[num_particles - 1];
+                ctx.line(p1.x, p1.y, p2.x, p2.y);
             }
                 
             
             //requests animation frame
-            function draw(){
+            function draw() {
                   
                 if (mic.getRMS(mic.spectrum) > mic.peak_volume - 20) {
                     ctx.lineWidth = 1000;
                     ctx.strokeStyle = rgb(0);
                     ctx.fillStyle = gradient;
                     ctx.fillRect(0, 0, w, h);
-                    //set to 2 for bigger explosion
-                    //drawParticles(2);
                 } else {
-                    
                     ctx.lineWidth = 2;
                     ctx.strokeStyle = line_colour;
                     ctx.background(0, map(mic.getRMS(mic.spectrum), 0, 100, 0.25, 0.05));
-                    //drawParticles(1);
                 }
                 
-                drawParticles(1);
+                drawParticles();
                 drawConnections();
             }
             
