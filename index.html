@@ -33,17 +33,17 @@
             
             document.addEventListener('keypress', function (e) {
                 if (e.keyCode == 49) {
-                    //1: black and red
-                    line_colour = rgb(250, 0, 0);
-                    gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
-                    gradient.addColorStop(1, rgb(255, 120, 0));
-                    gradient.addColorStop(0, rgb(255, 0, 0));
-                } else if (e.keyCode == 50) {
-                    //2: basic black and white
+                    //1: basic black and white
                     line_colour = rgb(255, 255, 255);
                     gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
                     gradient.addColorStop(1, rgb(255, 255, 255));
                     gradient.addColorStop(0, rgb(235, 235, 235));
+                } else if (e.keyCode == 50) {
+                    //2: black and red
+                    line_colour = rgb(250, 0, 0);
+                    gradient = ctx.createRadialGradient(w/2, h/2, w/2, w/2, h/2, w/4);
+                    gradient.addColorStop(1, rgb(255, 120, 0));
+                    gradient.addColorStop(0, rgb(255, 0, 0));
                     
                     
                 } else if (e.keyCode == 55) {
@@ -62,10 +62,9 @@
                 
             }, false);
             
-            ctx.background(0)
             
             //set to 128 for digitised effect, otherwise 512 is smooth
-            var mic = new Microphone(128);
+            var mic = new Microphone(256);
             
             //number of lines of symmetry
             var symmetry_num = 4;
@@ -120,7 +119,7 @@
             }
             
             
-            function drawConnections() {
+            function drawConnections () {
                 for (i = 0; i < num_particles - 1; i++) {
                     p1 = particles[i];
                     p2 = particles[i + 1];
@@ -135,6 +134,7 @@
             
             //requests animation frame
             function draw() {
+                frameRate = 120;
                   
                 if (mic.getRMS(mic.spectrum) > mic.peak_volume - 20) {
                     ctx.lineWidth = 1000;
