@@ -13,4 +13,4 @@ Controls (key press):
 - 7: 1 line of symmetry
 - 8: 2 lines of symmetry
 - 9: 4 lines of symmetry
-- 10: 10 lines of symmetry
+- 0: 10 lines of symmetry
