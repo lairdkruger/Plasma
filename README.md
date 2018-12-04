@@ -1,5 +1,5 @@
 # Plasma Real-Time Sound Visualizer
-live demo at https://lairdkruger.github.io/Plasma/ 
+Live demo at https://lairdkruger.github.io/Plasma/ 
  
 - runs in chrome
 - a powerful computer (CPU) is recommended to minimise latency between the sound and the visuals
